@@ -5,24 +5,24 @@ class Stack:
 
     def __init__(self):
         self.max_size = 100
-        self.__list = List()
+        self._list = List()
 
     def push(self, val):
-        self.__list.insert(val, 0)
+        self._list.insert(val, 0)
 
         if len(self) > self.max_size:
             raise Exception('Stack overflow!')
 
     def pop(self):
-        val = self.__list[0].val
-        self.__list.remove(0)
+        val = self._list[0].val
+        del self._list[0]
         return val
 
     def peek(self):
-        return self.__list[0]
+        return self._list[0]
 
     def __len__(self):
-        return len(self.__list)
+        return len(self._list)
 
     def __str__(self):
         text = '> '

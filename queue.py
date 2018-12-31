@@ -5,32 +5,32 @@ class Queue:
 
     def __init__(self):
         self.max_size = 100
-        self.list = List()
+        self._list = List()
 
     def enqueue(self, value):
         # add element to end of queue
-        self.list.append(value)
+        self._list.append(value)
 
         if len(self) > self.max_size:
             raise Exception('Queue overflow!')
 
     def dequeue(self):
         # get and remove first element of queue
-        val = self.list[0].val
-        self.list.remove(0)
+        val = self._list[0].val
+        del list[0]
         return val
 
     def __contains__(self, val):
         if len(self) == 0:
             return False
 
-        for list_node in self.list:
+        for list_node in self._list:
             if (list_node is not None) and list_node.val == val:
                 return True
         return False
 
     def __len__(self):
-        return len(self.list)
+        return len(self._list)
 
     def __str__(self):
         text = '< '

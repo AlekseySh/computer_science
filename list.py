@@ -21,7 +21,7 @@ class List(object):
         self.len += 1
         return self
 
-    def remove(self, idx: int):
+    def __delitem__(self, idx):
         idx = self._to_positive_idx(idx)
         prev_node = self.__get_prev_node(idx)
         next_node = self.__get_next_node(idx)
