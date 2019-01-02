@@ -1,2 +1,3 @@
-# data_sctructures
-Simple custom data structures on python 
+# DATA STRUCTURES
+Simple custom data structures on python.
+

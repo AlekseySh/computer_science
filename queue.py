@@ -1,3 +1,5 @@
+from collections import deque
+
 from list import List
 
 
@@ -16,16 +18,16 @@ class Queue:
 
     def dequeue(self):
         # get and remove first element of queue
-        val = self._list[0].val
-        del list[0]
+        val = self._list[0]
+        del self._list[0]
         return val
 
     def __contains__(self, val):
         if len(self) == 0:
             return False
 
-        for list_node in self._list:
-            if (list_node is not None) and list_node.val == val:
+        for cur_val in self._list:
+            if (cur_val is not None) and (cur_val == val):
                 return True
         return False
 
@@ -49,4 +51,16 @@ if __name__ == '__main__':
     q.dequeue()
     q.enqueue(150)
 
+    print('default')
     print(q)
+
+    d = deque()
+    d.append(10)
+    d.append(20)
+    d.append(40)
+    d.append(50)
+    d.popleft()
+    d.append(150)
+
+    print('default')
+    print(d)

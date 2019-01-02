@@ -14,7 +14,7 @@ class Stack:
             raise Exception('Stack overflow!')
 
     def pop(self):
-        val = self._list[0].val
+        val = self._list[0]
         del self._list[0]
         return val
 

@@ -80,26 +80,32 @@ class List(object):
         return idx
 
     def __get_prev_node(self, positive_idx):
-        prev_node = self.header if (positive_idx == 0) else self[positive_idx - 1]
+        prev_node = self.header if (positive_idx == 0) else self._get_node(positive_idx - 1)
         return prev_node
 
     def __get_next_node(self, positive_idx):
-        next_node = None if (self.len == positive_idx + 1) else self[positive_idx + 1]
+        next_node = None if (self.len == positive_idx + 1) else self._get_node(positive_idx + 1)
         return next_node
+
+    def find(self, val):
+        for i, cur_val in enumerate(self):
+            if cur_val == val:
+                return i
+        return None
 
     def __len__(self):
         return self.len
 
     def __str__(self):
         ret = '['
-        for i, node in enumerate(self):
-            ret += str(node)
+        for i, val in enumerate(self):
+            ret += str(val)
             if i < self.len - 1:
                 ret += ', '
         ret += ']'
         return ret
 
-    def __getitem__(self, idx: int):
+    def _get_node(self, idx):
         idx = self._to_positive_idx(idx)
 
         if idx >= self.len:
@@ -111,12 +117,15 @@ class List(object):
 
         return cur_node
 
+    def __getitem__(self, idx: int):
+        return self._get_node(idx).val
+
     def __setitem__(self, idx, val):
-        self[idx].val = val
+        self._get_node(idx).val = val
 
     def __contains__(self, val):
-        for node in self:
-            if node.val == val:
+        for cur_val in self:
+            if cur_val == val:
                 return True
         return False
 
@@ -134,5 +143,9 @@ if __name__ == '__main__':
 
     ll.reverse()
     ll.append(30)
+
+    ll[5] = 1
+
+    print(800 in ll)
 
     print(ll)

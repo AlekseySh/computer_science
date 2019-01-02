@@ -112,8 +112,8 @@ def bfs(queue, visited_ids, visited_vals):
 
 
 if __name__ == '__main__':
-    head_node = get_divisibility_graph()
-    vals = get_all_values_dfs(head_node)
+    head_node = get_another_graph()
+    vals = get_all_values_bfs(head_node)
 
     print('\nValues:')
     print(vals)

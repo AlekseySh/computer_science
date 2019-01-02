@@ -1,14 +1,30 @@
+from typing import List
+
 import numpy as np
 
 from list import List
 
 
+class KeyVal:
+
+    def __init__(self, key, val):
+        self.key, self.val = key, val
+
+    def key(self): return self.key
+
+    def val(self): return self.val
+
+    def __str__(self):
+        return f'<{self.key}: {self.val}>'
+
+
 class HashMap:
-    table_size = 10
+    table_size = 5
 
     def __init__(self):
         self.len = 0
-        self.keys = set()
+        self.keys = List()
+
         self.h = np.repeat(None, self.table_size)
         self.hash_f = lambda x: hash(x) % self.table_size
 
@@ -25,45 +41,43 @@ class HashMap:
 
         if key in self.keys:
             add_idx = HashMap._find_key_in_list(self.h[idx], key)
-            self.h[idx][add_idx].val[1] = val
+            self.h[idx][add_idx].val = val
         else:
             if not self.h[idx]:
                 self.h[idx] = List()
 
-            key_val_list = List()
-            key_val_list.append(key)
-            key_val_list.append(val)
-            self.h[idx].append(key_val_list)
+            self.h[idx].append(KeyVal(key, val))
 
-            self.keys.add(key)
+            self.keys.append(key)
             self.len += 1
 
     def __delitem__(self, key):
         idx = self.hash_f(key)
         add_idx = HashMap._find_key_in_list(self.h[idx], key)
-        self.h[idx].remove(add_idx)
-        self.keys.remove(key)
         self.len -= 1
+
+        del self.h[idx][add_idx]
+        del self.keys[self.keys.find(key)]
 
     def __getitem__(self, key):
         idx = self.hash_f(key)
         add_idx = HashMap._find_key_in_list(self.h[idx], key)
-        node = self.h[idx][add_idx]
-        return node.val[1]
+        val = self.h[idx][add_idx].val
+        return val
 
     def __len__(self):
         return self.len
 
     def print_structure(self):
         print()
-        for i, key_val_list in enumerate(self.h):
-            print(f'{i}| {key_val_list}')
+        for i, kv_list in enumerate(self.h):
+            print(f'h_{i}| {kv_list}')
 
     @staticmethod
-    def _find_key_in_list(key_val_list, key):
-        # assume that list contains pairs (key, val)
-        for idx, node in enumerate(key_val_list):
-            if node.val[0].val == key:
+    def _find_key_in_list(kv_list, key):
+        # assume that kv_list contains KeyVal objs
+        for idx, kv in enumerate(kv_list):
+            if kv.key == key:
                 return idx
         raise ValueError
 
@@ -80,9 +94,7 @@ if __name__ == '__main__':
 
     hash_map['4'] = 0
 
-    del hash_map['1']
+    del hash_map['0']
 
     hash_map.print_structure()
-
-    print()
     print(hash_map)
