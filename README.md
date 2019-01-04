@@ -1,3 +1,3 @@
-# DATA STRUCTURES
-Simple custom data structures on python.
+# DATA STRUCTURES AND ALGORITHMS
+Simple custom data structures and algorithms on python.
 
