@@ -2,9 +2,12 @@
 Based on:
 https://neerc.ifmo.ru/wiki/index.php?title=Сортировка_слиянием
 """
+
 from math import log2, ceil
 
-__all__ = ['merge_sort_iterative', 'merge_sort_recursively']
+from algorithms.sorting.test import test
+
+__all__ = ['merge_sort_iterative', 'merge_sort_recursively', 'main']
 
 
 def merge(a, b):
@@ -23,7 +26,7 @@ def merge(a, b):
             i_b += 1
 
     # now a or b guaranted empty, therefore, only one
-    #  of the cycles will be executed.
+    # of the cycles will be executed.
     while i_b < n_b:
         ab.append(b[i_b])
         i_b += 1
@@ -36,7 +39,7 @@ def merge(a, b):
 
 
 def merge_inplace(x, left, mid, right):
-    a = x[left: mid]
+    a = x[left: mid]  # copy here: O(n) memory
     b = x[mid: right]
     merged_ab = merge(a, b)
     for i, ab in enumerate(merged_ab):
@@ -54,8 +57,7 @@ def _merge_sort_recursively(x, left, right):
 
 
 def merge_sort_recursively(x):
-    if len(x) > 1:
-        _merge_sort_recursively(x, 0, len(x))
+    _merge_sort_recursively(x, 0, len(x))
 
 
 def merge_sort_iterative(x):
@@ -74,7 +76,10 @@ def merge_sort_iterative(x):
             merge_inplace(x, left, mid, right)
 
 
+def main():
+    test(sort_func=merge_sort_iterative)
+    test(sort_func=merge_sort_recursively)
+
+
 if __name__ == '__main__':
-    inp = [3, 7, 3, 5, 15, 1, 2, 4, 0, 15, 16, 19, 20, 1]
-    merge_sort_iterative(inp)
-    print(inp)
+    main()

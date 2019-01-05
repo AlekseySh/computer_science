@@ -1,7 +1,5 @@
 from random import randint
 
-from algorithms.sorting.merge import merge_sort_recursively, merge_sort_iterative
-
 
 def test(sort_func,
          n_test=1000,
@@ -20,12 +18,4 @@ def test(sort_func,
         assert x_for_custom == x_for_default, \
             f'input: {x}, sorted: {x_for_custom}'
 
-
-def main():
-    test(sort_func=merge_sort_recursively)
-    test(sort_func=merge_sort_iterative)
-    print('All tests passed!')
-
-
-if __name__ == '__main__':
-    main()
+    print('Tests passed!')
