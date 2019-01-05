@@ -1,6 +1,7 @@
 class BinHeap:
 
     def __init__(self, values):
+        # values should be default or custom list
         self.h = values
         self.n = len(values)
 
@@ -48,7 +49,8 @@ class BinHeap:
 
 
 if __name__ == '__main__':
-    heap = BinHeap([1, 2, 4, 10, 5, 6, 8, 9, 11, 16])
+    ll = [16, 11, 9, 10, 5, 6, 3, 4, 0, 1, 1, 2]
+    heap = BinHeap(ll)
     heap.build_heap()
     print(heap)
     print()
