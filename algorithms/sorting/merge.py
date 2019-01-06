@@ -1,8 +1,3 @@
-"""
-Based on:
-https://neerc.ifmo.ru/wiki/index.php?title=Сортировка_слиянием
-"""
-
 from math import log2, ceil
 
 from algorithms.sorting.test import test
@@ -79,6 +74,7 @@ def merge_sort_iterative(x):
 def main():
     test(sort_func=merge_sort_iterative)
     test(sort_func=merge_sort_recursively)
+    print('Merge-sort passed tests!')
 
 
 if __name__ == '__main__':

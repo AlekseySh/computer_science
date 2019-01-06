@@ -2,8 +2,10 @@ import numpy as np
 
 from algorithms.sorting.test import test
 
+__all__ = ['counting_sort']
 
-def count_sort(x):
+
+def counting_sort(x):
     if not x:
         return
 
@@ -23,8 +25,8 @@ def count_sort(x):
 
 
 def main():
-    test(sort_func=count_sort)
-
+    test(sort_func=counting_sort)
+    print('Counting-sort passed tests!')
 
 if __name__ == '__main__':
     main()
