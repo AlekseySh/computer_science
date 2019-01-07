@@ -1,4 +1,4 @@
-from list import List
+from structures.list import List
 
 
 class Stack:
