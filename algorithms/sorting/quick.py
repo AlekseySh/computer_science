@@ -1,14 +1,17 @@
+from random import randint
+
 from algorithms.sorting.test import test
 from structures.stack import Stack
 
-__all__ = ['quick_sort_recursive']
+__all__ = ['quick_sort_recursive', 'quick_sort_iterative']
 
 
 def partitioning(x, i_left, i_last):
     i, j = i_left, i_last
-    pivot = x[i_left]
+    pivot = x[randint(i_left, i_last)]
 
     while i <= j:
+
         while x[i] < pivot:
             i += 1
 

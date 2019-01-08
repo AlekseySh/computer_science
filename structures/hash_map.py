@@ -1,8 +1,9 @@
-from typing import List
-
 import numpy as np
 
-from list import List
+from algorithms.hashing import hash_func
+from structures.list import List
+
+__all__ = ['HashMap']
 
 
 class KeyVal:
@@ -19,19 +20,24 @@ class KeyVal:
 
 
 class HashMap:
-    table_size = 5
+    table_size = 101  # better use simple number
 
     def __init__(self):
         self.len = 0
         self.keys = List()
 
         self.h = np.repeat(None, self.table_size)
-        self.hash_f = lambda x: hash(x) % self.table_size
+        self.hash_f = lambda x: hash_func(x, self.table_size)
 
     def __str__(self):
         text = '{ \n'
         for key in self.keys:
-            key_str = f'\'{key}\'' if isinstance(key, str) else str(key)
+
+            if isinstance(key, str):
+                key_str = f'\'{key}\''
+            else:
+                str(key)
+
             text += f'{key_str}: {str(self[key])}\n'
         text += '}'
         return text
@@ -69,7 +75,7 @@ class HashMap:
         return self.len
 
     def print_structure(self):
-        print()
+        print('Hash-map inner structure:')
         for i, kv_list in enumerate(self.h):
             print(f'h_{i}| {kv_list}')
 
@@ -91,6 +97,7 @@ if __name__ == '__main__':
     hash_map['3'] = 3
     hash_map['4'] = 4
     hash_map['5'] = 5
+    hash_map[124] = 7
 
     hash_map['4'] = 0
 

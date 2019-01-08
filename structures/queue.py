@@ -1,6 +1,8 @@
 from collections import deque
 
-from list import List
+from collections.list import List
+
+__all__ = ['Queue']
 
 
 class Queue:

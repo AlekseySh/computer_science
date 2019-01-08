@@ -1,3 +1,6 @@
+__all__ = ['BinHeap']
+
+
 class BinHeap:
 
     def __init__(self, values):

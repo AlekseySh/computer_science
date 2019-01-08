@@ -1,3 +1,6 @@
+__all__ = ['BiList']
+
+
 class BiNode:
 
     def __init__(self, val):

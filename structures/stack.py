@@ -1,5 +1,7 @@
 from structures.list import List
 
+__all__ = ['Stack']
+
 
 class Stack:
 

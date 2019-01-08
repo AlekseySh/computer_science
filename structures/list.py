@@ -1,4 +1,7 @@
-class Node(object):
+__all__ = ['List']
+
+
+class Node:
 
     def __init__(self, val):
         self.val = val
@@ -8,7 +11,7 @@ class Node(object):
         return str(self.val)
 
 
-class List(object):
+class List:
 
     def __init__(self):
         self.header = Node(val='header')
@@ -80,11 +83,17 @@ class List(object):
         return idx
 
     def __get_prev_node(self, positive_idx):
-        prev_node = self.header if (positive_idx == 0) else self._get_node(positive_idx - 1)
+        if positive_idx == 0:
+            prev_node = self.header
+        else:
+            prev_node = self._get_node(positive_idx - 1)
         return prev_node
 
     def __get_next_node(self, positive_idx):
-        next_node = None if (self.len == positive_idx + 1) else self._get_node(positive_idx + 1)
+        if self.len == positive_idx + 1:
+            next_node = None
+        else:
+            next_node = self._get_node(positive_idx + 1)
         return next_node
 
     def find(self, val):
@@ -109,7 +118,8 @@ class List(object):
         idx = self._to_positive_idx(idx)
 
         if idx >= self.len:
-            raise IndexError(f'Index {idx} out of range for list with len {self.len}.')
+            raise IndexError(f'Index {idx} out of range \
+             for list with len {self.len}.')
 
         cur_node = self.header.next
         for _ in range(idx):

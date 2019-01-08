@@ -1,5 +1,5 @@
-from list import List
-from queue import Queue
+from structures.list import List
+from structures.queue import Queue
 
 
 class GraphNode:
