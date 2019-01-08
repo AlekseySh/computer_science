@@ -28,5 +28,6 @@ def main():
     test(sort_func=counting_sort)
     print('Counting-sort passed tests!')
 
+
 if __name__ == '__main__':
     main()

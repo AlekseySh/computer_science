@@ -1,6 +1,4 @@
-from collections import deque
-
-from collections.list import List
+from structures.list import List
 
 __all__ = ['Queue']
 
@@ -24,15 +22,6 @@ class Queue:
         del self._list[0]
         return val
 
-    def __contains__(self, val):
-        if len(self) == 0:
-            return False
-
-        for cur_val in self._list:
-            if (cur_val is not None) and (cur_val == val):
-                return True
-        return False
-
     def __len__(self):
         return len(self._list)
 
@@ -53,16 +42,4 @@ if __name__ == '__main__':
     q.dequeue()
     q.enqueue(150)
 
-    print('my')
     print(q)
-
-    d = deque()
-    d.append(10)
-    d.append(20)
-    d.append(40)
-    d.append(50)
-    d.popleft()
-    d.append(150)
-
-    print('default')
-    print(d)
