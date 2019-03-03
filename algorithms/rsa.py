@@ -19,6 +19,8 @@ MSG_MAX = 10e2
 
 
 def test_rsa(n_test: int = 100):
+    print('Start testing RSA protocol.')
+
     for _ in tqdm(range(n_test)):
         rsa_session()
 
