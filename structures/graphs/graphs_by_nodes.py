@@ -36,7 +36,7 @@ def get_divisibility_graph():
     return node1
 
 
-def get_another_graph():
+def get_sample1_graph():
     # https://studfiles.net/html/710/197/html_NWMgMuIzg5.QMJb/img-CGdkcL.png
 
     node1 = GraphNode('1', idx=0)
@@ -64,56 +64,51 @@ def get_another_graph():
     return node1
 
 
-# DFS
-def get_all_values_dfs(head):
+# DFS (depth first algorithm)
+def dfs(head):
     visited_ids, visited_vals = List(), List()
-    dfs(head, visited_ids, visited_vals)
+
+    def step(node):
+        if node.idx not in visited_ids:
+            visited_ids.append(node.idx)
+            visited_vals.append(node.val)
+            for node in node.nexts:
+                step(node)
+
+    step(head)
     return visited_vals
 
 
-def dfs(node, visited_ids, visited_vals):
-    # depth first algorithm
-    if node.idx not in visited_ids:
-        visited_ids.append(node.idx)
-        visited_vals.append(node.val)
-        for node in node.nexts:
-            dfs(node, visited_ids, visited_vals)
-
-
-# BFS
-def get_all_values_bfs(head):
+# BFS (breadth first algorithm)
+def bfs(head):
     visited_ids, visited_vals = List(), List()
-    queue = Queue()
 
+    queue = Queue()
     queue.enqueue(head)
+
     visited_ids.append(head.idx)
     visited_vals.append(head.val)
 
-    bfs(queue, visited_ids, visited_vals)
-    return visited_vals
+    def step():
+        if not queue:
+            return
 
+        node = queue.dequeue()
 
-def bfs(queue, visited_ids, visited_vals):
-    # breadth first algorithm
+        for next_node in node.nexts:
+            if next_node.idx not in visited_ids:
+                queue.enqueue(next_node)
+                visited_ids.append(next_node.idx)
+                visited_vals.append(next_node.val)
 
-    if not queue:
-        return
+        step()
+        return visited_vals
 
-    node = queue.dequeue()
-
-    for next_node in node.nexts:
-        if next_node.idx not in visited_ids:
-            queue.enqueue(next_node)
-            visited_ids.append(next_node.idx)
-            visited_vals.append(next_node.val)
-
-    bfs(queue, visited_ids, visited_vals)
+    step()
     return visited_vals
 
 
 if __name__ == '__main__':
-    head_node = get_another_graph()
-    vals = get_all_values_bfs(head_node)
-
-    print('\nValues:')
-    print(vals)
+    head_node = get_sample1_graph()
+    print(dfs(head_node))
+    print(bfs(head_node))

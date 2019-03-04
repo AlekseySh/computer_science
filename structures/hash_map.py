@@ -33,12 +33,14 @@ class HashMap:
         text = '{ \n'
         for key in self.keys:
 
-            if isinstance(key, str):
-                key_str = f'\'{key}\''
-            else:
-                str(key)
+            val = self[key]
+            if isinstance(val, str):
+                val = f'\'{val}\''
 
-            text += f'{key_str}: {str(self[key])}\n'
+            if isinstance(key, str):
+                key = f'\'{key}\''
+
+            text += f'{key}: {val}\n'
         text += '}'
         return text
 

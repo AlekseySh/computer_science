@@ -18,7 +18,7 @@ MSG_MIN = 10e1
 MSG_MAX = 10e2
 
 
-def test_rsa(n_test: int = 100):
+def test_rsa(n_test=100):
     print('Start testing RSA protocol.')
 
     for _ in tqdm(range(n_test)):
@@ -27,8 +27,8 @@ def test_rsa(n_test: int = 100):
     print(f'All {n_test} rsa-tests passed!')
 
 
-def rsa_session(msg_min: int = MSG_MIN,
-                msg_max: int = MSG_MAX
+def rsa_session(msg_min=MSG_MIN,
+                msg_max=MSG_MAX
                 ):
     message = randint(msg_min, msg_max)
     (n, e), (n, d) = generate_keys()
@@ -45,7 +45,7 @@ def rsa_session(msg_min: int = MSG_MIN,
         f'module n: {n}.'
 
 
-def generate_keys() -> ((int, int), (int, int)):
+def generate_keys():
     p, q = generate_pq()
     n = p * q
     lam = lcm(p - 1, q - 1)
@@ -56,8 +56,7 @@ def generate_keys() -> ((int, int), (int, int)):
     return public, private
 
 
-def generate_pq(min_val: int = PQ_MIN
-                ) -> (int, int):
+def generate_pq(min_val=PQ_MIN):
     p_times, q_times, max_times = None, None, 10
     p, q = None, None
 
@@ -76,9 +75,7 @@ def generate_pq(min_val: int = PQ_MIN
     return p, q
 
 
-def generate_pub_exp(lam: int,
-                     max_val: int = EXP_MAX
-                     ) -> int:
+def generate_pub_exp(lam, max_val=EXP_MAX):
     primes = list(prime.primes_below(min(max_val, lam)))
 
     e = choice(primes)
@@ -88,11 +85,11 @@ def generate_pub_exp(lam: int,
     return e
 
 
-def lcm(a: int, b: int) -> int:
+def lcm(a, b):
     return abs(a * b) / gcd(a=a, b=b)
 
 
-def modular_inv(a: int, b: int) -> int:
+def modular_inv(a, b):
     g, x, _ = egcd(a, b)
     if g == 1:
         return int(x % b)
