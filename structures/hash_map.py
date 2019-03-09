@@ -44,6 +44,9 @@ class HashMap:
         text += '}'
         return text
 
+    def items(self):
+        return [(key, self[key]) for key in self.keys]
+
     def __setitem__(self, key, val):
         idx = self.hash_f(key)
 

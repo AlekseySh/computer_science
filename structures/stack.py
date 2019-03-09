@@ -23,19 +23,14 @@ class Stack:
     def peek(self):
         return self._list[0]
 
+    def to_list(self):
+        return self._list
+
     def __len__(self):
         return len(self._list)
 
     def __str__(self):
-        text = '> '
-        i = 0
-        while len(self):
-            text += self.pop()
-            if i <= len(self):
-                text += ', '
-            i += 1
-        text += ' >'
-        return text
+        return str(self._list)
 
 
 if __name__ == '__main__':
@@ -43,7 +38,8 @@ if __name__ == '__main__':
     stack.push('1')
     stack.push('2')
     stack.push('3')
-    stack.push('4')
+    stack.push(5)
+    stack.push(5)
     stack.pop()
 
     print(stack)

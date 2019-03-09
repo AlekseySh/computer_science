@@ -1,8 +1,11 @@
+import matplotlib.pyplot as plt
+import networkx as nx
 import numpy as np
 
 from structures.hash_map import HashMap
 from structures.list import List
 from structures.queue import Queue
+from structures.stack import Stack
 
 
 # Transforms
@@ -36,13 +39,13 @@ def get_divisibility_graph():
     # https://ru.wikipedia.org/wiki/Ориентированный_граф#
     # /media/File:Divisors_12.svg
 
-    i_to_names = HashMap()
-    i_to_names[0] = '1'
-    i_to_names[1] = '2'
-    i_to_names[2] = '3'
-    i_to_names[3] = '4'
-    i_to_names[4] = '6'
-    i_to_names[5] = '12'
+    labels = HashMap()
+    labels[0] = '1'
+    labels[1] = '2'
+    labels[2] = '3'
+    labels[3] = '4'
+    labels[4] = '6'
+    labels[5] = '12'
 
     edge_list = [
         (0, 1),
@@ -53,34 +56,48 @@ def get_divisibility_graph():
         (3, 5),
         (4, 5)
     ]
-    return edge_list, i_to_names
-
-
-def get_sample1_graph():
-    i_to_names = HashMap()
-    for i in range(0, 9):
-        i_to_names[i] = str(i + 1)
-
-    # todo
-    return 1
+    return edge_list, labels
 
 
 # Algos
+def dfs_step(idx,
+             visited,
+             ii_order,
+             adj_list,
+             ii_stack=None
+             ):
+    if idx in visited:
+        return
+    else:
+        visited.append(idx)
+        ii_order.append(idx)
+
+        for j in adj_list[idx]:
+            dfs_step(j,
+                     visited,
+                     ii_order,
+                     adj_list,
+                     ii_stack
+                     )
+
+    if ii_stack is not None:
+        ii_stack.push(idx)
+
 
 def dfs(adj_list):
     visited, ii_order = List(), List()
-
-    def step(idx: int):
-        if idx in visited:
-            return
-        else:
-            visited.append(idx)
-            ii_order.append(idx)
-            for j in adj_list[idx]:
-                step(idx=j)
-
-    step(idx=0)
+    dfs_step(0, visited, ii_order, adj_list)
     return ii_order
+
+
+def top_sort(adj_list):
+    visited, ii_order, ii_sort = List(), List(), List()
+    stack = Stack()
+
+    dfs_step(0, visited, ii_order, adj_list, stack)
+
+    sorted_ids = stack.to_list()
+    return sorted_ids
 
 
 def bfs(adj_list):
@@ -111,21 +128,43 @@ def bfs(adj_list):
 # Examples
 
 def search():
-    edge_list, i_to_names = get_divisibility_graph()
+    edge_list, i_to_labels = get_divisibility_graph()
     adj_list = edge_list_to_adj_list(edge_list)
 
-    print(edge_list_to_adj_mat(edge_list))
+    bfs_labels = [i_to_labels[i] for i in bfs(adj_list)]
+    print(f'BFS order:\n {bfs_labels}')
 
-    ii_order = bfs(adj_list)
-    for i in ii_order:
-        print(i_to_names[i])
+    dfs_labels = [i_to_labels[i] for i in dfs(adj_list)]
+    print(f'DFS order:\n {dfs_labels}')
 
 
-def search2():
-    get_sample1_graph()
-    # todo
+# visualisation
+def draw(edge_list, labels):
+    g = nx.DiGraph()
+    g.add_edges_from(edge_list)
+    pos = nx.spring_layout(g)
+
+    plt.figure()
+    nx.draw_networkx_edges(g, pos)
+    nx.draw_networkx_labels(
+        g, pos, labels=labels, font_size=20)
+    plt.show()
+
+
+def top_sort_check():
+    edge_list, labels = get_divisibility_graph()
+    adj_list = edge_list_to_adj_list(edge_list)
+
+    ii_sort = top_sort(adj_list)
+
+    g = nx.DiGraph()
+    g.add_edges_from(edge_list)
+    ii_sort_lib = list(nx.topological_sort(g))
+
+    print(f'Topological sort: {ii_sort_lib} (lib).')
+    print(f'Topological sort: {ii_sort} (our).')
 
 
 if __name__ == '__main__':
     search()
-    search2()
+    top_sort_check()
