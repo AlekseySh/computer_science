@@ -39,19 +39,37 @@ def get_divisibility_graph():
     # https://ru.wikipedia.org/wiki/Ориентированный_граф#
     # /media/File:Divisors_12.svg
 
+    # labels = HashMap()
+    # labels[0] = '1'
+    # labels[1] = '2'
+    # labels[2] = '3'
+    # labels[3] = '4'
+    # labels[4] = '6'
+    # labels[5] = '12'
+    #
+    # edge_list = [
+    #     (0, 1),
+    #     (0, 2),
+    #     (1, 3),
+    #     (1, 4),
+    #     (2, 4),
+    #     (3, 5),
+    #     (4, 5)
+    # ]
+
     labels = HashMap()
-    labels[0] = '1'
-    labels[1] = '2'
+    labels[1] = '1'
+    labels[0] = '2'
     labels[2] = '3'
     labels[3] = '4'
     labels[4] = '6'
     labels[5] = '12'
 
     edge_list = [
-        (0, 1),
-        (0, 2),
-        (1, 3),
-        (1, 4),
+        (1, 0),
+        (1, 2),
+        (0, 3),
+        (0, 4),
         (2, 4),
         (3, 5),
         (4, 5)
@@ -84,18 +102,18 @@ def dfs_step(idx,
         ii_stack.push(idx)
 
 
-def dfs(adj_list):
+def dfs(adj_list, stack=None):
     visited, ii_order = List(), List()
-    dfs_step(0, visited, ii_order, adj_list)
+    all_ids = range(len(adj_list))
+    for node_idx in all_ids:
+        if node_idx not in visited:
+            dfs_step(node_idx, visited, ii_order, adj_list, stack)
     return ii_order
 
 
 def top_sort(adj_list):
-    visited, ii_order, ii_sort = List(), List(), List()
     stack = Stack()
-
-    dfs_step(0, visited, ii_order, adj_list, stack)
-
+    dfs(adj_list, stack)
     sorted_ids = stack.to_list()
     return sorted_ids
 
@@ -148,12 +166,15 @@ def draw(edge_list, labels):
     nx.draw_networkx_edges(g, pos)
     nx.draw_networkx_labels(
         g, pos, labels=labels, font_size=20)
+    plt.axis('off')
     plt.show()
 
 
 def top_sort_check():
     edge_list, labels = get_divisibility_graph()
     adj_list = edge_list_to_adj_list(edge_list)
+
+    draw(edge_list, labels)
 
     ii_sort = top_sort(adj_list)
 

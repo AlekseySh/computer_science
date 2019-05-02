@@ -78,7 +78,7 @@ class BinHeap:
 
     @staticmethod
     def parent(i):
-        return i // 2
+        return (i - 1) // 2
 
 
 def main():

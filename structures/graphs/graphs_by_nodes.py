@@ -66,7 +66,7 @@ def get_sample1_graph():
 
 # DFS (depth first algorithm)
 def dfs(head):
-    visited_ids, visited_vals = List(), List()
+    visited_ids, visited_vals = List(), List()  # todo set
 
     def step(node):
         if node.idx not in visited_ids:
@@ -96,7 +96,7 @@ def bfs(head):
         node = queue.dequeue()
 
         for next_node in node.nexts:
-            if next_node.idx not in visited_ids:
+            if next_node.idx not in visited_ids:  # todo set
                 queue.enqueue(next_node)
                 visited_ids.append(next_node.idx)
                 visited_vals.append(next_node.val)
