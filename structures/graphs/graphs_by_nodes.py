@@ -66,11 +66,11 @@ def get_sample1_graph():
 
 # DFS (depth first algorithm)
 def dfs(head):
-    visited_ids, visited_vals = List(), List()  # todo set
+    visited_ids, visited_vals = set(), List()
 
     def step(node):
         if node.idx not in visited_ids:
-            visited_ids.append(node.idx)
+            visited_ids.add(node.idx)
             visited_vals.append(node.val)
             for node in node.nexts:
                 step(node)
@@ -81,12 +81,12 @@ def dfs(head):
 
 # BFS (breadth first algorithm)
 def bfs(head):
-    visited_ids, visited_vals = List(), List()
+    visited_ids, visited_vals = set(), List()
 
     queue = Queue()
     queue.enqueue(head)
 
-    visited_ids.append(head.idx)
+    visited_ids.add(head.idx)
     visited_vals.append(head.val)
 
     def step():
@@ -96,9 +96,9 @@ def bfs(head):
         node = queue.dequeue()
 
         for next_node in node.nexts:
-            if next_node.idx not in visited_ids:  # todo set
+            if next_node.idx not in visited_ids:
                 queue.enqueue(next_node)
-                visited_ids.append(next_node.idx)
+                visited_ids.add(next_node.idx)
                 visited_vals.append(next_node.val)
 
         step()

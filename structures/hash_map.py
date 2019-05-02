@@ -49,6 +49,14 @@ class HashMap:
         else:
             return kv_list[kv_idx].val
 
+    def items(self):
+        pairs = List()
+        for kv_list in self.arr:
+            if kv_list is not None:
+                for kv in kv_list:
+                    pairs.append((kv.key, kv.val))
+        return pairs
+
     def __delitem__(self, key):
         kv_list = self.arr[self.hash_func(key)]
         if kv_list is None:
