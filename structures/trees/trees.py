@@ -20,13 +20,17 @@ class Node:
     def has_right_child(self):
         return self.right is not None
 
-    def no_childs(self):
+    def has_no_child(self):
         return not self.has_left_child() and \
                not self.has_right_child()
 
     def has_one_child(self):
-        return self.has_right_child() \
-               + self.has_right_child() == 1
+        return (self.has_left_child() +
+                self.has_right_child()) == 1
+
+    def has_both_children(self):
+        return self.has_left_child() and \
+               self.has_right_child()
 
     def __str__(self):
         return str(self.val)
@@ -41,65 +45,113 @@ class TraverseMode(Enum):
 class BinSearchTree:
 
     def __init__(self):
-        self.len = 0
+        self._len = 0
         self.root = Node(None)
 
     def __len__(self):
-        return self.len
+        return self._len
 
     def remove(self, val):
         if not self:
             return
-        else:
-            self.rm_step(self.root, val)
 
-    def rm_step(self, cur_node, val):
+        elif len(self) == 1:
+            del self.root
+            self._len -= 1
+
+        else:
+            self._rm_step(self.root, val)
+
+    def _rm_step(self, cur_node, val):
         if cur_node.val < val:
-            self.rm_step(cur_node.right, val)
+            self._rm_step(cur_node.right, val)
 
         elif cur_node.val > val:
-            self.rm_step(cur_node.left, val)
+            self._rm_step(cur_node.left, val)
 
-        # cur_node.val == val
-        else:
-            if cur_node.no_childs():
-                if cur_node.parent.val <= val:
-                    cur_node.parent.left = None
-                else:
+        elif cur_node.val == val:
+
+            if cur_node.has_no_child():
+                if cur_node.parent.val < val:
                     cur_node.parent.right = None
+                else:
+                    cur_node.parent.left = None
                 del cur_node
+                self._len -= 1
 
             elif cur_node.has_one_child():
-                1
+                child = cur_node.left if cur_node.has_left_child() else cur_node.right
+                cur_node.val = child.val
+                cur_node.left = child.left
+                cur_node.right = child.right
+                del child
+                self._len -= 1
 
             # has both childs
+            elif cur_node.has_both_children():
+                if cur_node.right.left is None:
+                    child_right = cur_node.right
+                    cur_node.val = child_right.val
+                    cur_node.right = child_right.right
+                    del child_right
+                    self._len -= 1
+
+                else:
+                    most_left = cur_node.right.left
+                    while most_left.left is not None:
+                        most_left = most_left.left
+
+                    cur_node.val = most_left.val
+                    self._rm_step(most_left, most_left.val)
+
             else:
-                1
+                raise NotImplementedError('Unexpected case.')
+        else:
+            raise NotImplementedError('Unexpected case.')
 
     def set_root(self, val):
         self.root = Node(val)
 
     def find(self, val):
-        pass
+        if not self:
+            return
+        else:
+            return self._find_step(self.root, val)
+
+    def _find_step(self, cur_node, val):
+        if val < cur_node.val:
+            if cur_node.has_left_child():
+                return self._find_step(cur_node.left, val)
+            else:
+                return
+
+        elif val > cur_node.val:
+            if cur_node.has_right_child():
+                return self._find_step(cur_node.right, val)
+            else:
+                return
+
+        else:  # case: val == cur_node.val
+            return cur_node.val
 
     def add(self, val):
         if self:
-            self.add_step(self.root, val)
+            self._add_step(self.root, val)
         else:
             self.set_root(val)
-        self.len += 1
+        self._len += 1
 
-    def add_step(self, cur_node, val):
+    def _add_step(self, cur_node, val):
         if cur_node.val <= val:
             if cur_node.has_right_child():
-                self.add_step(cur_node.right, val)
+                self._add_step(cur_node.right, val)
             else:
                 cur_node.right = Node(val)
                 cur_node.right.parent = cur_node
 
         else:
             if cur_node.has_left_child():
-                self.add_step(cur_node.left, val)
+                self._add_step(cur_node.left, val)
             else:
                 cur_node.left = Node(val)
                 cur_node.left.parent = cur_node
@@ -107,18 +159,18 @@ class BinSearchTree:
     def traverse(self, mode):
         print(mode)
         if self:
-            self.traverse_step(self.root, mode)
+            self._traverse_step(self.root, mode)
         else:
             return
 
-    def traverse_step(self, cur_node, mode):
+    def _traverse_step(self, cur_node, mode):
         def left_call():
             if cur_node.has_left_child():
-                self.traverse_step(cur_node.left, mode)
+                self._traverse_step(cur_node.left, mode)
 
         def right_call():
             if cur_node.has_right_child():
-                self.traverse_step(cur_node.right, mode)
+                self._traverse_step(cur_node.right, mode)
 
         def root_call():
             print(cur_node)
@@ -154,13 +206,16 @@ def bst_check():
     bst.add(14)
     bst.add(13)
 
-    bst.remove(10)
+    bst.remove(8)
 
     bst.traverse(TraverseMode.Infix)
     print()
     bst.traverse(TraverseMode.Postfix)
     print()
     bst.traverse(TraverseMode.Prefix)
+
+    print('\nfind')
+    print(bst.find(val=8))
 
 
 if __name__ == '__main__':
