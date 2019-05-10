@@ -87,7 +87,7 @@ class PQueueArrSort(PQueue):
             return
 
         # todo
-        # it can be improved from O(n) to O(log(n)) with bin search
+        # it can be improved from O(n) to O(log(n)) with bin bin_search
         for i in range(len(self)):
             if val <= self.arr[i]:
                 self.arr = np.insert(self.arr, i, val)

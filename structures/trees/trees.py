@@ -69,8 +69,8 @@ class BinSearchTree:
         elif cur_node.val > val:
             self._rm_step(cur_node.left, val)
 
-        elif cur_node.val == val:
-
+        # cur_node.val == val
+        else:
             if cur_node.has_no_child():
                 if cur_node.parent.val < val:
                     cur_node.parent.right = None
@@ -87,8 +87,8 @@ class BinSearchTree:
                 del child
                 self._len -= 1
 
-            # has both childs
-            elif cur_node.has_both_children():
+            # has both children
+            else:
                 if cur_node.right.left is None:
                     child_right = cur_node.right
                     cur_node.val = child_right.val
@@ -103,11 +103,6 @@ class BinSearchTree:
 
                     cur_node.val = most_left.val
                     self._rm_step(most_left, most_left.val)
-
-            else:
-                raise NotImplementedError('Unexpected case.')
-        else:
-            raise NotImplementedError('Unexpected case.')
 
     def set_root(self, val):
         self.root = Node(val)
