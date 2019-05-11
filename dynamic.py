@@ -1,6 +1,5 @@
 from bisect import bisect_left
-
-import numpy as np
+from random import randint
 
 
 def bin_search(arr, x0):
@@ -21,9 +20,9 @@ def largest_incremental_subsequence(arr):
 
     for i, a in enumerate(arr[:-1]):
         j = bisect_left(last_nums, a)
-        if last_nums[j - 1] < a < last_nums[j]:
-            last_nums[j] = a
 
+        if (last_nums[j - 1] < a) and (a < last_nums[j]):
+            last_nums[j] = a
             pos[j] = i
             prev[i] = pos[j - 1]
             length = max(length, j)
@@ -37,12 +36,17 @@ def largest_incremental_subsequence(arr):
     return answer
 
 
-def main():
-    x = [0, 1, 0, 1, 2, 5, 6, 0, 6]
-    subseq = largest_incremental_subsequence(x)
-    print(subseq)
-    assert np.all(np.diff(subseq) >= 0)
+def rand_ints(n, a, b):
+    return [randint(a, b) for _ in range(n)]
+
+
+def test():
+    arr = rand_ints(20, 1, 15)
+    subseq_ans = largest_incremental_subsequence(arr)
+
+    print(arr)
+    print(subseq_ans)
 
 
 if __name__ == '__main__':
-    main()
+    test()
