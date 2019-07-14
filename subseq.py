@@ -40,7 +40,7 @@ def rand_ints(n, a, b):
     return [randint(a, b) for _ in range(n)]
 
 
-def test():
+def main():
     arr = rand_ints(20, 1, 15)
     subseq_ans = largest_incremental_subsequence(arr)
 
@@ -49,4 +49,4 @@ def test():
 
 
 if __name__ == '__main__':
-    test()
+    main()

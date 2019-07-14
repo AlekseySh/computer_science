@@ -33,6 +33,16 @@ def edge_list_to_adj_list(edge_list):
     return adj_list
 
 
+def adj_list_to_edge_list(adj_list):
+    edge_list = []
+    for u, v_nodes in enumerate(adj_list):
+        for v in v_nodes:
+            edge = sorted((u, v))
+            if edge not in edge_list:
+                edge_list.append(edge)
+    return edge_list
+
+
 # Samples
 
 def get_divisibility_graph():
