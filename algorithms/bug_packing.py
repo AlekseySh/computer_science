@@ -22,8 +22,6 @@ def pack_bug(weights, prices, max_w):
                 # don't put this object
                 a[k, s] = a[k - 1, s]
 
-    print(a)
-
     # 2. restore indeces
 
     def find(k_, s_):
@@ -72,7 +70,8 @@ def test(sample):
     print(f'GT: price: {picked_price_gt}, weight: {picked_weight_gt}')
 
     assert (picked_weight_gt == picked_weight) and \
-           (picked_price_gt == picked_price), \
+           (picked_price_gt == picked_price) and \
+           (picked_weight <= max_w), \
         'Answer is incorrect'
 
     print('Test passed.')

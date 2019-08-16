@@ -109,8 +109,10 @@ class BinSearchTree:
 
     def find(self, val):
         if not self:
+            print(f'{val} not found')
             return
         else:
+            print(f'{val} was found')
             return self._find_step(self.root, val)
 
     def _find_step(self, cur_node, val):
@@ -210,7 +212,7 @@ def bst_check():
     bst.traverse(TraverseMode.Prefix)
 
     print('\nfind')
-    print(bst.find(val=8))
+    bst.find(val=10)
 
 
 if __name__ == '__main__':
