@@ -34,7 +34,7 @@ def top_sort(adj_list):
     colors = ['w'] * n
     stack = Stack()
 
-    def dfs_step(idx):
+    def dfs_colored(idx):
         if colors[idx] == 'g':
             raise ValueError('Cycle was find.')
 
@@ -42,13 +42,13 @@ def top_sort(adj_list):
             colors[idx] = 'g'
 
             for j in adj_list[idx]:
-                dfs_step(j)
+                dfs_colored(j)
 
             colors[idx] = 'b'
             stack.push(idx)
 
     for i0 in range(n):
-        dfs_step(i0)
+        dfs_colored(i0)
 
     ii_order = stack.to_list()
     return ii_order
@@ -100,7 +100,7 @@ def top_sort_check(graph):
     edge_list, i_to_labels = graph
     adj_list = g.edge_list_to_adj_list(edge_list)
 
-    # draw(edge_list, i_to_labels)
+    draw(edge_list, i_to_labels)
 
     # our
     ii_sort = top_sort(adj_list)
