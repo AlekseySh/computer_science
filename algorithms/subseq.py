@@ -2,13 +2,6 @@ from bisect import bisect_left
 from random import randint
 
 
-def bin_search(arr, x0):
-    i = bisect_left(a=arr, x=x0)
-    if i != len(arr) and arr[i] == x0:
-        return i
-    raise ValueError
-
-
 def largest_incremental_subsequence(arr):
     last_nums = [float('inf')] * len(arr)
     pos = [None] * len(arr)
