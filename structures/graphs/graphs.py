@@ -41,6 +41,16 @@ def adj_list_to_edge_list(adj_list):
     return edge_list
 
 
+def to_nonor(edge_list):
+    edge_list_nonor = edge_list.copy()
+    for (u, v) in edge_list:
+
+        if (v, u) not in edge_list_nonor:
+            edge_list_nonor.append((v, u))
+
+    return edge_list_nonor
+
+
 # Examples
 
 
@@ -94,6 +104,18 @@ def get_triangle():
         (2, 0)
     ]
     return edge_list, i_to_label
+
+
+def get_triangle_nonor():
+    edge_list, i_to_label = get_triangle()
+    edge_list_nonor = to_nonor(edge_list)
+    return edge_list_nonor, i_to_label
+
+
+def get_divisibility_nonor_graph():
+    edge_list, i_to_label = get_divisibility_graph()
+    edge_list_nonor = to_nonor(edge_list)
+    return edge_list_nonor, i_to_label
 
 
 def test_coverters(edge_list):

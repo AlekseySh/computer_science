@@ -9,6 +9,8 @@ from structures.queue import Queue
 from structures.stack import Stack
 
 
+# Algos
+
 def dfs(adj_list, ii_start):
     visited, ii_order = set(), List()
 
@@ -78,6 +80,24 @@ def bfs(adj_list, i_start=0):
     return ii_order
 
 
+def find_source_and_stock(edge_list):
+    edges = {idx for edge in edge_list for idx in edge}
+    n_v = len(edges)
+
+    inp, out = [0] * n_v, [0] * n_v
+
+    for u, v in edge_list:
+        inp[v] += 1
+        out[u] += 1
+
+    ii_source = [i for i in range(n_v) if inp[i] == 0]
+    ii_stock = [i for i in range(n_v) if out[i] == 0]
+
+    return ii_source, ii_stock
+
+
+# Tests
+
 def search_check(graph):
     edge_list, i_to_labels = graph
     adj_list = g.edge_list_to_adj_list(edge_list)
@@ -94,6 +114,13 @@ def search_check(graph):
 
     assert set(dfs_ii) == set(bfs_ii), \
         'Sets of reachable nodes must be the same.'
+
+
+def source_and_stock_check(edge_list, ii_source_gt, ii_stock_gt):
+    ii_source, ii_stock = find_source_and_stock(edge_list)
+
+    assert set(ii_source_gt) == set(ii_source)
+    assert set(ii_stock_gt) == set(ii_stock)
 
 
 def top_sort_check(graph):
@@ -116,6 +143,8 @@ def top_sort_check(graph):
     print(f'Topological sort: {labels_sort} (our).')
 
 
+# Visualization
+
 def draw(edge_list, labels):
     warnings.filterwarnings("ignore")
 
@@ -133,10 +162,32 @@ def draw(edge_list, labels):
     plt.show()
 
 
+def test_or_graphs():
+    print('\nTest on orient graphs.')
+
+    search_check(g.get_divisibility_graph())
+    search_check(g.get_triangle())
+
+    top_sort_check(g.get_divisibility_graph())
+
+    source_and_stock_check(g.get_divisibility_graph()[0],
+                           [1], [5])
+
+    print('All checks are passed.')
+
+
+def test_nonor_graphs():
+    print('\nTest on non-orient graphs.')
+
+    search_check(g.get_divisibility_nonor_graph())
+    search_check(g.get_triangle_nonor())
+
+    print('All checks are passed.')
+
+
 def main():
-    graph = g.get_divisibility_graph()
-    search_check(graph)
-    top_sort_check(graph)
+    test_or_graphs()
+    test_nonor_graphs()
 
 
 if __name__ == '__main__':
