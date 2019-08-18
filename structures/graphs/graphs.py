@@ -106,6 +106,24 @@ def get_triangle():
     return edge_list, i_to_label
 
 
+def get_two_triangles_graph():
+    i_to_label = HashMap()
+    for i in range(6):
+        i_to_label[i] = str(i)
+
+    edge_list = [
+        (0, 1),
+        (1, 2),
+        (2, 0),
+        (3, 4),
+        (4, 5),
+        (5, 3)
+    ]
+
+    edge_list_nonor = to_nonor(edge_list)
+    return edge_list_nonor, i_to_label
+
+
 def get_triangle_nonor():
     edge_list, i_to_label = get_triangle()
     edge_list_nonor = to_nonor(edge_list)

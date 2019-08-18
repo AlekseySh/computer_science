@@ -31,26 +31,36 @@ def dfs(adj_list, ii_start):
     return ii_order
 
 
+def dfs_colored_step(idx, adj_list, colors, stack):
+    if colors[idx] == 'g':
+        is_cycle = True
+        return is_cycle
+
+    if colors[idx] == 'w':
+        colors[idx] = 'g'
+
+        for j in adj_list[idx]:
+            dfs_colored_step(j, adj_list, colors, stack)
+
+        colors[idx] = 'b'
+
+        if stack is not None:
+            stack.push(idx)
+
+        is_cycle = False
+        return is_cycle
+
+
 def top_sort(adj_list):
     n = len(adj_list)
     colors = ['w'] * n
     stack = Stack()
 
-    def dfs_colored(idx):
-        if colors[idx] == 'g':
-            raise ValueError('Cycle was find.')
-
-        if colors[idx] == 'w':
-            colors[idx] = 'g'
-
-            for j in adj_list[idx]:
-                dfs_colored(j)
-
-            colors[idx] = 'b'
-            stack.push(idx)
-
     for i0 in range(n):
-        dfs_colored(i0)
+        is_cycle = dfs_colored_step(i0, adj_list, colors, stack)
+
+        if is_cycle:
+            raise ValueError('Cycle was found')
 
     ii_order = stack.to_list()
     return ii_order
@@ -81,6 +91,7 @@ def bfs(adj_list, i_start=0):
 
 
 def find_source_and_stock(edge_list):
+    # only for orient graphs
     edges = {idx for edge in edge_list for idx in edge}
     n_v = len(edges)
 
@@ -94,6 +105,24 @@ def find_source_and_stock(edge_list):
     ii_stock = [i for i in range(n_v) if out[i] == 0]
 
     return ii_source, ii_stock
+
+
+def find_linked_components(adj_list):
+    # only for nonor graphs
+    n = len(adj_list)
+    colors = ['w'] * n
+    components = []
+
+    for i0 in range(n):
+
+        stack = Stack()
+        dfs_colored_step(i0, adj_list, colors, stack)
+        component = set(stack.to_list())
+
+        if component:
+            components.append(component)
+
+    return components
 
 
 # Tests
@@ -143,23 +172,19 @@ def top_sort_check(graph):
     print(f'Topological sort: {labels_sort} (our).')
 
 
-# Visualization
+def components_check():
+    edge_list, _ = g.get_two_triangles_graph()
+    first_comp_gt = {0, 1, 2}
+    second_comp_gt = {3, 4, 5}
 
-def draw(edge_list, labels):
-    warnings.filterwarnings("ignore")
+    adj_list = g.edge_list_to_adj_list(edge_list)
+    components = find_linked_components(adj_list)
 
-    labels_str = {key: f'\'{val}\' [{key}]' for key, val in labels.items()}
+    print(components)
 
-    g = nx.DiGraph()
-    g.add_edges_from(edge_list)
-    pos = nx.spring_layout(g)
-
-    plt.figure()
-    nx.draw_networkx_edges(g, pos)
-    nx.draw_networkx_labels(
-        g, pos, labels=labels_str, font_size=16)
-    plt.axis('off')
-    plt.show()
+    assert len(components) == 2
+    assert (first_comp_gt in components) and \
+           (second_comp_gt in components)
 
 
 def test_or_graphs():
@@ -182,7 +207,28 @@ def test_nonor_graphs():
     search_check(g.get_divisibility_nonor_graph())
     search_check(g.get_triangle_nonor())
 
+    components_check()
+
     print('All checks are passed.')
+
+
+# Visualization
+
+def draw(edge_list, labels):
+    warnings.filterwarnings("ignore")
+
+    labels_str = {key: f'\'{val}\' [{key}]' for key, val in labels.items()}
+
+    g = nx.DiGraph()
+    g.add_edges_from(edge_list)
+    pos = nx.spring_layout(g)
+
+    plt.figure()
+    nx.draw_networkx_edges(g, pos)
+    nx.draw_networkx_labels(
+        g, pos, labels=labels_str, font_size=16)
+    plt.axis('off')
+    plt.show()
 
 
 def main():
