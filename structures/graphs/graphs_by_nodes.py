@@ -2,7 +2,7 @@ from structures.list import List
 from structures.queue import Queue
 
 
-class GraphNode:
+class Node:
 
     def __init__(self, val, idx):
         self.val = val
@@ -14,17 +14,12 @@ class GraphNode:
 
 
 def get_divisibility_graph():
-    # divisibility relation graph
-
-    # https://ru.wikipedia.org/wiki/Ориентированный_граф#
-    # /media/File:Divisors_12.svg
-
-    node1 = GraphNode('1', idx=0)
-    node2 = GraphNode('2', idx=1)
-    node3 = GraphNode('3', idx=2)
-    node4 = GraphNode('4', idx=3)
-    node6 = GraphNode('6', idx=4)
-    node12 = GraphNode('12', idx=5)
+    node1 = Node('1', idx=0)
+    node2 = Node('2', idx=1)
+    node3 = Node('3', idx=2)
+    node4 = Node('4', idx=3)
+    node6 = Node('6', idx=4)
+    node12 = Node('12', idx=5)
 
     node1.nexts = [node2, node3]
     node2.nexts = [node4, node6]
@@ -36,22 +31,23 @@ def get_divisibility_graph():
     return node1
 
 
-def get_sample1_graph():
-    # https://studfiles.net/html/710/197/html_NWMgMuIzg5.QMJb/img-CGdkcL.png
+def get_example_graph():
+    # https://studfiles.net/html/710/197/
+    # html_NWMgMuIzg5.QMJb/img-CGdkcL.png
 
-    node1 = GraphNode('1', idx=0)
+    node1 = Node('1', idx=0)
 
-    node3 = GraphNode('3', idx=1)
-    node4 = GraphNode('4', idx=2)
+    node3 = Node('3', idx=1)
+    node4 = Node('4', idx=2)
 
-    node6 = GraphNode('6', idx=3)
-    node2 = GraphNode('2', idx=4)
-    node5 = GraphNode('5', idx=5)
+    node6 = Node('6', idx=3)
+    node2 = Node('2', idx=4)
+    node5 = Node('5', idx=5)
 
-    node7 = GraphNode('7', idx=6)
-    node8 = GraphNode('8', idx=7)
+    node7 = Node('7', idx=6)
+    node8 = Node('8', idx=7)
 
-    node9 = GraphNode('9', idx=8)
+    node9 = Node('9', idx=8)
 
     node1.nexts = [node3, node4]
     node3.nexts = [node6, node2]
@@ -109,6 +105,6 @@ def bfs(head):
 
 
 if __name__ == '__main__':
-    head_node = get_sample1_graph()
+    head_node = get_example_graph()
     print(dfs(head_node))
     print(bfs(head_node))

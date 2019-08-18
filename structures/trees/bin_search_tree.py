@@ -1,39 +1,6 @@
 from enum import Enum
 
-
-class Node:
-
-    def __init__(self,
-                 val,
-                 left=None,
-                 right=None,
-                 parent=None
-                 ):
-        self.val = val
-        self.left = left
-        self.right = right
-        self.parent = parent
-
-    def has_left_child(self):
-        return self.left is not None
-
-    def has_right_child(self):
-        return self.right is not None
-
-    def has_no_child(self):
-        return not self.has_left_child() and \
-               not self.has_right_child()
-
-    def has_one_child(self):
-        return (self.has_left_child() +
-                self.has_right_child()) == 1
-
-    def has_both_children(self):
-        return self.has_left_child() and \
-               self.has_right_child()
-
-    def __str__(self):
-        return str(self.val)
+from structures.trees.tree import Node
 
 
 class TraverseMode(Enum):

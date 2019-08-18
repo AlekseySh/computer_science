@@ -32,6 +32,9 @@ class Stack:
     def __str__(self):
         return str(self._list)
 
+    def __contains__(self, val):
+        return self._list.find(val) is not None
+
 
 if __name__ == '__main__':
     stack = Stack()
@@ -43,3 +46,7 @@ if __name__ == '__main__':
     stack.pop()
 
     print(stack)
+
+    assert 5 in stack
+    assert '1' in stack
+    assert '5' not in stack

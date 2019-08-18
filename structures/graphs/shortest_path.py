@@ -1,26 +1,14 @@
 import numpy as np
 
 from structures.bin_heap import BinHeap
-from structures.graphs.graphs import adjacency_mat_to_list, adj_list_to_edge_list
-
-
-def get_example_graph():
-    mat = np.zeros((8, 8), dtype=np.float)
-    mat[0, 2] = mat[2, 0] = 2
-    mat[2, 3] = mat[3, 2] = 3
-    mat[3, 4] = mat[4, 3] = 1
-    mat[0, 1] = mat[1, 0] = 1
-    mat[1, 5] = mat[5, 1] = 2
-    mat[4, 5] = mat[5, 4] = 8
-    mat[1, 2] = mat[2, 1] = 1
-    mat[1, 3] = mat[3, 1] = 1
-    mat[3, 5] = mat[5, 3] = 4
-    mat[6, 7] = mat[7, 6] = 1
-    return mat
+from structures.graphs.graphs import \
+    (adj_mat_to_adj_list,
+     adj_list_to_edge_list,
+     get_example_graph)
 
 
 def fold_bellman(graph_mat, s_node):
-    adj_list = adjacency_mat_to_list(graph_mat)
+    adj_list = adj_mat_to_adj_list(graph_mat)
     edge_list = adj_list_to_edge_list(adj_list)
     n = graph_mat.shape[0]
 
@@ -67,7 +55,7 @@ def modify_heap(heap, ind, new_dist):
 
 
 def dijkstra(graph_mat, s_node):
-    adj_list = adjacency_mat_to_list(graph_mat)
+    adj_list = adj_mat_to_adj_list(graph_mat)
     n = graph_mat.shape[0]
 
     d = np.array([DijkstraNode(i, np.inf) for i in range(n)])
