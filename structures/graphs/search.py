@@ -180,8 +180,6 @@ def components_check():
     adj_list = g.edge_list_to_adj_list(edge_list)
     components = find_linked_components(adj_list)
 
-    print(components)
-
     assert len(components) == 2
     assert (first_comp_gt in components) and \
            (second_comp_gt in components)
@@ -212,6 +210,11 @@ def test_nonor_graphs():
     print('All checks are passed.')
 
 
+def main():
+    test_or_graphs()
+    test_nonor_graphs()
+
+
 # Visualization
 
 def draw(edge_list, labels):
@@ -229,11 +232,6 @@ def draw(edge_list, labels):
         g, pos, labels=labels_str, font_size=16)
     plt.axis('off')
     plt.show()
-
-
-def main():
-    test_or_graphs()
-    test_nonor_graphs()
 
 
 if __name__ == '__main__':
